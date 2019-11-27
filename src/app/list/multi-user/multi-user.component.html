@@ -1,0 +1,575 @@
+<div class="container-fluid ">
+  <div class="row">
+    <div class="col-sm-12 p-0">
+      <nav class="m-0 navbar navbar-expand-lg navbar-light fixed-top" style="background-color: darkblue ">
+        <a class="navbar-brand" href="">
+          <img src="../../assets/icon_128.png" width="50" height="50" class="d-inline-block align-top" alt="">
+          <span class="text-light" style="font-size: 30px; margin-left: 10px ;">TODO List</span>
+        </a>
+
+        <div class="btn-group">
+          <button class="btn btn-outline-light  my-2 my-sm-0" type="button"data-toggle="modal" data-target="#exampleModalLong"
+          ><i class="fa fa-bell"></i><span
+            class="badge bg-danger">{{notificationArraySize}}</span>
+        </button>
+        </div>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+          aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+          <ul class="nav ml-auto ">
+            <li class="nav-item  ml-auto">
+              <a class="nav-link text-light p-0  ">{{userName}}</a>
+              <a class="nav-link text-light p-0 " (click)="logout();">LogOut</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <nav class="navbar  navbar-light mt-5 pt-5 ">
+        <div class="mt-5" id="">
+          <ul class="nav nav-tabs  justify-content-center" style="margin-left: 100px">
+
+            <li class="nav-item bg-primary mt-1">
+              <a class="nav-link text-light" href="/single-user">My-Dashboard </a>
+            </li>
+            &nbsp;
+
+            <li class="nav-item bg-primary mt-1">
+              <a class="nav-link text-light" href="/friend">Friends</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row justify-content-center" style="font-weight: bold"><u>Dashboard of {{friendName}}</u></div>
+
+  <br>
+
+  <div class="row pt-1" *ngIf="allLists.length >0">
+    <div class="col-lg-6" *ngFor="let list of allLists">
+      <div class="card text-center " style="background-color: #d5f4e6;">
+        <div class="card-header">
+          <h6 class="card-title" (click)="listSelected(list.listId) ; getItemsOfList(list.listId,list.listName)">
+            {{list.listName | uppercase}}
+            &nbsp;
+            <span class="text-muted">
+              {{list.listModifierName}} :- {{list.listModifiedOn | date}}</span>
+            &nbsp;
+            <button type="button" class="btn " data-toggle="modal" data-target="#editListModal">
+              <i class="fa fa-edit" (click)="listSelected(list.listId)"></i>
+            </button>
+            &nbsp;
+            <i class="fa fa-trash-o" (click)="listSelected(list.listId); DeleteList()"></i>
+
+            <button type="button" class="btn " data-toggle="modal" data-target="#addItemModal"
+              (click)="listSelected(list.listId)"><i class="fa fa-plus"></i> Item</button>
+          </h6>
+        </div>
+
+        <div class="card-body" style="background-color: azure" *ngIf="list.listId == selectedListId">
+          <div class="" *ngIf="allItems.length >0 ">
+            <div class="" *ngFor="let item of allItems; let i = index;">
+              <div class="form-check" *ngIf="item.itemDone == 'yes'">
+                <input class="form-check-input mt-2 pt-1" type="checkbox" value="" id="itemCheck{{i}}"
+                  onclick="return false;" checked>
+
+                <label class="form-check-label" for="itemCheck{{i}}">
+
+                  <h6 class="card-title">
+                    {{item.itemName | uppercase}}
+                    &nbsp;
+                    <!-- <span class="text-muted" (click)="itemSelected(item.itemId); getSubItemsOfItem(item.itemId)"> -->
+                    <span class="text-muted" (click)="itemSelected(item.itemId)">
+                      {{item.itemModifierName}} :- {{item.itemModifiedOn | date}}</span>
+                    &nbsp;
+                    <button type="button" class="btn " data-toggle="modal" data-target="#editItemModal">
+                      <i class="fa fa-edit" (click)="itemSelected(item.itemId)"></i>
+                    </button>
+                    &nbsp;
+                    <i class="fa fa-trash-o" (click)="itemSelected(item.itemId); DeleteItem()"></i>
+
+                    <button type="button" class="btn " data-toggle="modal" data-target="#addSubItemModal"
+                      (click)="itemSelected(item.itemId)"><i class="fa fa-plus"></i> SubItem</button>
+
+
+                    <div class="row ml-auto" style="background-color: rgb(245, 250, 250)"
+                      *ngFor="let subItem of item.subItems ; let i = index;">
+                      <div class="form-check" *ngIf="subItem.subItemDone == 'yes'">
+                        <input class="form-check-input  mt-2 pt-1" type="checkbox" value="yes" id="subItemCheck{{i}}"
+                          onclick="return false;" checked>
+
+                        <label class="form-check-label " for="subItemCheck{{i}}">
+
+                          <h6 class="" (click)="subItemSelected(subItem.subItemId,item.itemId)">
+                            {{subItem.subItemName | uppercase}}
+                            &nbsp;
+                            <span class="text-muted">
+                              {{subItem.subItemModifierName}} :- {{subItem.subItemModifiedOn | date}}</span>
+                            &nbsp;
+                            <button type="button" class="btn " data-toggle="modal" data-target="#editSubItemModal">
+                              <i class="fa fa-edit" (click)="subItemSelected(subItem.subItemId,item.itemId)"></i>
+                            </button>
+                            &nbsp;
+                            <i class="fa fa-trash-o"
+                              (click)="subItemSelected(subItem.subItemId,item.itemId); DeleteSubItem()"></i>
+                          </h6>
+                        </label>
+                      </div>
+                      <div class="form-check" *ngIf="subItem.subItemDone == 'no'">
+                        <input class="form-check-input  mt-2 pt-1" type="checkbox" value="" id="subItemCheck{{i}}"
+                          onclick="return false;">
+
+                        <label class="form-check-label " for="subItemCheck{{i}}">
+
+                          <h6 class="" (click)="subItemSelected(subItem.subItemId,item.itemId)">
+                            {{subItem.subItemName | uppercase}}
+                            &nbsp;
+                            <span class="text-muted">
+                              {{subItem.subItemModifierName}} :- {{subItem.subItemModifiedOn | date}}</span>
+                            &nbsp;
+                            <button type="button" class="btn " data-toggle="modal" data-target="#editSubItemModal">
+                              <i class="fa fa-edit" (click)="subItemSelected(subItem.subItemId,item.itemId)"></i>
+                            </button>
+                            &nbsp;
+                            <i class="fa fa-trash-o"
+                              (click)="subItemSelected(subItem.subItemId,item.itemId); DeleteSubItem()"></i>
+                          </h6>
+                        </label>
+                      </div>
+
+                    </div>
+                  </h6>
+                </label>
+
+              </div>
+
+              <div class="form-check" *ngIf="item.itemDone == 'no'">
+                <input class="form-check-input mt-2 pt-1" type="checkbox" value="no" id="itemCheck{{i}}"
+                  onclick="return false;">
+
+                <label class="form-check-label" for="itemCheck{{i}}">
+
+                  <h6 class="" (click)="itemSelected(item.itemId)">
+                    {{item.itemName | uppercase}}
+                    &nbsp;
+                    <span class="text-muted">
+                      {{item.itemModifierName}} :- {{item.itemModifiedOn | date}}</span>
+                    &nbsp;
+                    <button type="button" class="btn " data-toggle="modal" data-target="#editItemModal">
+                      <i class="fa fa-edit" (click)="itemSelected(item.itemId)"></i>
+                    </button>
+                    &nbsp;
+                    <i class="fa fa-trash-o" (click)="itemSelected(item.itemId); DeleteItem()"></i>
+
+                    <button type="button" class="btn " data-toggle="modal" data-target="#addSubItemModal"
+                      (click)="itemSelected(item.itemId)"><i class="fa fa-plus"></i> SubItem</button>
+
+                    <div class="row ml-auto" style="background-color: rgb(245, 250, 250)"
+                      *ngFor="let subItem of item.subItems ; let i = index;">
+                      <div class="form-check" *ngIf="subItem.subItemDone == 'yes'">
+                        <input class="form-check-input  mt-2 pt-1" type="checkbox" value="yes" id="subItemCheck{{i}}"
+                          onclick="return false;" checked>
+
+                        <label class="form-check-label " for="subItemCheck{{i}}">
+
+                          <h6 class="" (click)="subItemSelected(subItem.subItemId,item.itemId)">
+                            {{subItem.subItemName | uppercase}}
+                            &nbsp;
+                            <span class="text-muted">
+                              {{subItem.subItemModifierName}} :- {{subItem.subItemModifiedOn | date}}</span>
+                            &nbsp;
+                            <button type="button" class="btn " data-toggle="modal" data-target="#editSubItemModal">
+                              <i class="fa fa-edit" (click)="subItemSelected(subItem.subItemId,item.itemId)"></i>
+                            </button>
+                            &nbsp;
+                            <i class="fa fa-trash-o"
+                              (click)="subItemSelected(subItem.subItemId,item.itemId); DeleteSubItem()"></i>
+                          </h6>
+                        </label>
+                      </div>
+                      <div class="form-check" *ngIf="subItem.subItemDone == 'no'">
+                        <input class="form-check-input  mt-2 pt-1" type="checkbox" value="" id="subItemCheck{{i}}"
+                          onclick="return false;">
+
+                        <label class="form-check-label " for="subItemCheck{{i}}">
+
+                          <h6 class="" (click)="subItemSelected(subItem.subItemId,item.itemId)">
+                            {{subItem.subItemName | uppercase}}
+                            &nbsp;
+                            <span class="text-muted">
+                              {{subItem.subItemModifierName}} :- {{subItem.subItemModifiedOn | date}}</span>
+                            &nbsp;
+                            <button type="button" class="btn " data-toggle="modal" data-target="#editSubItemModal">
+                              <i class="fa fa-edit" (click)="subItemSelected(subItem.subItemId,item.itemId)"></i>
+                            </button>
+                            &nbsp;
+                            <i class="fa fa-trash-o"
+                              (click)="subItemSelected(subItem.subItemId,item.itemId); DeleteSubItem()"></i>
+                          </h6>
+                        </label>
+                      </div>
+
+                    </div>
+                  </h6>
+                </label>
+              </div>
+
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- modal for edit list -->
+<div class="modal fade" id="editListModal" tabindex="-1" role="dialog" aria-labelledby="editListModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editListModalLabel">Edit List</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <form #editListForm="ngForm">
+          <div class="form-group">
+            <label>List Name</label>
+            <input type="text" name="listName" [(ngModel)]="listName" #name="ngModel" class="form-control"
+              placeholder="Enter List name" required>
+          </div>
+
+          <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+            List name is required
+          </div>
+
+          <div class="form-group">
+            <label>ListModifier-id</label>
+            <input type="text" name="userId" [(ngModel)]="userId" #modifierId="ngModel" class="form-control" readonly>
+          </div>
+
+          <div class="form-group">
+            <label>ListModifier-Name</label>
+            <input type="text" name="userName" [(ngModel)]="userName" #modifierName="ngModel" class="form-control"
+              readonly>
+          </div>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="editList()" [disabled]="!editListForm.form.valid"
+          data-dismiss="modal">submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- modal for Adding item to a list -->
+<div class="modal fade" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addItemModalLabel">Add item to {{listName}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <form #createItemForm="ngForm">
+          <div class="form-group">
+            <label>Item Name</label>
+            <input type="text" name="newItemName" [(ngModel)]="newItemName" #name="ngModel" class="form-control"
+              placeholder="Enter Item name" required>
+          </div>
+
+          <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+            Item name is required
+          </div>
+
+          <div class="form-group">
+            <label for="Item-Status">Item-Status</label>
+            <select required class="form-control" id="exampleFormControlSelect1" [(ngModel)]="newItemDone"
+              name="newItemDone" required>
+              <option selected value="">Select item status</option>
+              <option>no</option>
+              <option>yes</option>
+
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>ItemCreator-id</label>
+            <input type="text" name="userId" [(ngModel)]="userId" #creatorId="ngModel" class="form-control" readonly>
+          </div>
+
+          <div class="form-group">
+            <label>ItemCreator-Name</label>
+            <input type="text" name="userName" [(ngModel)]="userName" #creatorName="ngModel" class="form-control"
+              readonly>
+          </div>
+
+          <div class="form-group">
+            <label>ItemModifier-id</label>
+            <input type="text" name="userId" [(ngModel)]="userId" #modifierId="ngModel" class="form-control" readonly>
+          </div>
+
+          <div class="form-group">
+            <label>ItemModifier-Name</label>
+            <input type="text" name="userName" [(ngModel)]="userName" #modifierName="ngModel" class="form-control"
+              readonly>
+          </div>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="addItem()" [disabled]="!createItemForm.form.valid"
+          data-dismiss="modal">submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- modal for edit item -->
+<div class="modal fade" id="editItemModal" tabindex="-1" role="dialog" aria-labelledby="editItemModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editItemModalLabel">Edit Item</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <form #editItemForm="ngForm">
+          <div class="form-group">
+            <label>Item Name</label>
+            <input type="text" name="itemName" [(ngModel)]="itemName" #name="ngModel" class="form-control"
+              placeholder="Enter Item name" required>
+          </div>
+
+          <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+            Item name is required
+          </div>
+
+          <!-- <div class="form-group">
+              <label>Item Done</label>
+              <input type="text" name="itemDone" [(ngModel)]="itemDone" #name="ngModel" class="form-control"
+                placeholder="Enter Item status" required>
+            </div>
+  
+            <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+              Item status is required
+            </div> -->
+          <div class="form-group">
+            <label for="Item-Status">Item-Status</label>
+            <select required class="form-control" id="exampleFormControlSelect1" [(ngModel)]="itemDone" name="itemDone"
+              required>
+              <option selected value="">Select item status</option>
+              <option>no</option>
+              <option>yes</option>
+
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>ItemModifier-id</label>
+            <input type="text" name="userId" [(ngModel)]="userId" #modifierId="ngModel" class="form-control" readonly>
+          </div>
+
+          <div class="form-group">
+            <label>ItemModifier-Name</label>
+            <input type="text" name="userName" [(ngModel)]="userName" #modifierName="ngModel" class="form-control"
+              readonly>
+          </div>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="editItem()" [disabled]="!editItemForm.form.valid"
+          data-dismiss="modal">submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- modal for Adding subItem to an item -->
+<div class="modal fade" id="addSubItemModal" tabindex="-1" role="dialog" aria-labelledby="addSubItemModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addSubItemModalLabel">Add subItem to {{itemName}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <form #createSubItemForm="ngForm">
+          <div class="form-group">
+            <label>SubItem Name</label>
+            <input type="text" name="newSubItemName" [(ngModel)]="newSubItemName" #name="ngModel" class="form-control"
+              placeholder="Enter SubItem name" required>
+          </div>
+
+          <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+            SubItem name is required
+          </div>
+
+          <div class="form-group">
+            <label for="SubItem-Status">SubItem-Status</label>
+            <select required class="form-control" id="exampleFormControlSelect1" [(ngModel)]="newSubItemDone"
+              name="newSubItemDone" required>
+              <option selected value="">Select subItem status</option>
+              <option>no</option>
+              <option>yes</option>
+
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>SubItemCreator-id</label>
+            <input type="text" name="userId" [(ngModel)]="userId" #creatorId="ngModel" class="form-control" readonly>
+          </div>
+
+          <div class="form-group">
+            <label>SubItemCreator-Name</label>
+            <input type="text" name="userName" [(ngModel)]="userName" #creatorName="ngModel" class="form-control"
+              readonly>
+          </div>
+
+          <div class="form-group">
+            <label>SubItemModifier-id</label>
+            <input type="text" name="userId" [(ngModel)]="userId" #modifierId="ngModel" class="form-control" readonly>
+          </div>
+
+          <div class="form-group">
+            <label>SubItemModifier-Name</label>
+            <input type="text" name="userName" [(ngModel)]="userName" #modifierName="ngModel" class="form-control"
+              readonly>
+          </div>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="addSubItem()" [disabled]="!createSubItemForm.form.valid"
+          data-dismiss="modal">submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- modal for edit subItem -->
+<div class="modal fade" id="editSubItemModal" tabindex="-1" role="dialog" aria-labelledby="editSubItemModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editSubItemModalLabel">Edit SubItem</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <form #editSubItemForm="ngForm">
+          <div class="form-group">
+            <label>SubItem Name</label>
+            <input type="text" name="subItemName" [(ngModel)]="subItemName" #name="ngModel" class="form-control"
+              placeholder="Enter SubItem name" required>
+          </div>
+
+          <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+            SubItem name is required
+          </div>
+
+          <!-- <div class="form-group">
+              <label>Item Done</label>
+              <input type="text" name="itemDone" [(ngModel)]="itemDone" #name="ngModel" class="form-control"
+                placeholder="Enter Item status" required>
+            </div>
+  
+            <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+              Item status is required
+            </div> -->
+          <div class="form-group">
+            <label for="SubItem-Status">SubItem-Status</label>
+            <select required class="form-control" id="exampleFormControlSelect1" [(ngModel)]="subItemDone"
+              name="subItemDone" required>
+              <option selected value="">Select subItem status</option>
+              <option>no</option>
+              <option>yes</option>
+
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>SubItemModifier-id</label>
+            <input type="text" name="userId" [(ngModel)]="userId" #modifierId="ngModel" class="form-control" readonly>
+          </div>
+
+          <div class="form-group">
+            <label>SubItemModifier-Name</label>
+            <input type="text" name="userName" [(ngModel)]="userName" #modifierName="ngModel" class="form-control"
+              readonly>
+          </div>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="editSubItem()" [disabled]="!editSubItemForm.form.valid"
+          data-dismiss="modal">submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Notifications</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <ul class="list-group" *ngFor="let notification of notificationList">
+            <li  class=" list-group-item dropdown-item " style="white-space: pre-wrap; width:100%;" (click)=" selectNotification(notification.details.notificationId)" data-dismiss="modal">{{notification.message}}</li>
+          </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div>
+  </div>
+</div>

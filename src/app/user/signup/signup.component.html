@@ -1,0 +1,74 @@
+<body>
+  <div class="container-fluid signup-page">
+    <div class="row">
+      <div class="col-sm-12 p-0">
+        <nav class="m-0 navbar navbar-expand-md navbar-dark" style="background-color:DarkBlue ">
+          <a class="navbar-brand" href="">
+            <img src="../../assets/icon_128.png" width="50" height="50" class="d-inline-block align-top" alt="">
+            <span style="font-size: 30px; margin-left: 10px">TODO List</span>    
+          </a>
+        </nav>
+      </div>
+      <div class="col-lg-10 col-xl-9 mx-auto">
+        <div class="card card-signin flex-row my-5">
+          <div class="card-img-left d-none d-md-flex" style="border-right:grey 1px solid" >
+            <!-- Background image for card set in CSS! -->
+          </div>
+          <div class="card-body">
+            <h5 class="card-title text-center">Register</h5>
+            <form class="form-signin">
+
+              <div class="form-label-group">
+                <span style="color:black">FirstName: </span>
+                <label for="inputFirstName" class="sr-only">FirstName</label>
+                <input type="text" id="inputFirstName" class="form-control" style="border-radius: 25px; padding: 10px;"
+                  [(ngModel)]="firstName" name="firstName" placeholder="FirstName" required autofocus>
+              </div>
+
+              <div class="form-label-group">
+                <span style="color: black">LastName: </span>
+                <label for="inputLastName" class="sr-only">LastName</label>
+                <input type="text" id="inputLastName" class="form-control" style="border-radius: 25px; padding: 10px;"
+                  [(ngModel)]="lastName" name="lastName" placeholder="LastName" required>
+              </div>
+
+              <div class="form-label-group">
+                <span style="color: black">Mobile Number: </span>
+                <label for="inputMobile" class="sr-only">Mobile Number</label>
+                <input type="number" id="inputMobile" class="form-control" style="border-radius: 25px; padding: 10px;"
+                  [(ngModel)]="mobileNumber" name="mobileNumber" placeholder="mobileNumber" required>
+              </div>
+
+              <div class="form-label-group">
+                <span style="color: black">Email: </span>
+                <label for="inputEmail" class="sr-only">Email address</label>
+                <input type="email" id="inputEmail" class="form-control" style="border-radius: 25px; padding: 10px;"
+                  [(ngModel)]="email" name="email" placeholder="Email address" required>
+              </div>
+
+              <div class="form-label-group">
+                <span style="color: black">Password: </span>
+                <label for="inputPassword" class="sr-only">Password</label>
+                <input type="password" id="inputPassword" class="form-control"
+                  style="border-radius: 25px; padding: 10px;" [(ngModel)]="password" name="password"
+                  placeholder="Password" required>
+              </div>
+
+              <div class="form-label-group">
+                <span style="color: black">Country: </span>
+                <label for="inputCountry" class="sr-only">Country</label>
+                <input type="country" id="inputCountry" class="form-control"
+                  style="border-radius: 25px; padding: 10px;" [(ngModel)]="country" name="country"
+                  placeholder="Country" required>
+              </div>
+
+              <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit"
+                (click)="signupFunction()">Register</button>
+              <a class="d-block text-center mt-2 " href="/login">Sign In</a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

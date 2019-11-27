@@ -1,0 +1,72 @@
+<div class="container-fluid login-page">
+  <div class="row">
+    <div class="col-sm-12 p-0">
+      <nav class="m-0 navbar navbar-expand-md navbar-dark" style="background-color:DarkBlue ">
+        <a class="navbar-brand" href="">
+          <img src="../../assets/icon_128.png" width="50" height="50" class="d-inline-block align-top" alt="">
+          <span style="font-size: 30px; margin-left: 10px">TODO List</span>
+        </a>
+      </nav>
+    </div>
+    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+      <div class="card card-signin flex-row my-5">
+        <div class="card-body">
+          <h5 class="card-title text-center">Login</h5>
+          <form class="form-signin">
+
+            <label for="inputEmail" class="sr-only">email</label>
+
+            <input type="email" id="inputEmail" class="form-control" style="border-radius: 25px; padding: 20px;"
+              [(ngModel)]="email" name="email" placeholder="email" required autofocus>
+
+            <br>
+            <label for="inputPassword" class="sr-only">Password</label>
+
+            <input type="password" id="inputPassword" class="form-control" style="border-radius: 25px; padding: 20px;"
+              [(ngModel)]="password" name="pass" placeholder="Password" required>
+
+            <br>
+            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit"
+              (click)="goToSignIn()">Sign
+              in</button>
+            <hr class="my-4">
+
+            <div class="mt-4">
+              <div class="d-flex justify-content-center links">
+                Don't have an account? <a href="/signup" class="ml-2">Sign Up</a>
+              </div>
+              <div class="d-flex justify-content-center links">
+                <a class="link" href="" data-toggle="modal" data-target="#exampleModal">Forgot your password?</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Enter Your Email</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <label for="inputUserName" class="sr-only">Email</label>
+
+        <input type="email" id="inputEmail" class="form-control" [(ngModel)]="email" placeholder="email" required
+          autofocus>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="forgotPasswordFunction()"
+          data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
