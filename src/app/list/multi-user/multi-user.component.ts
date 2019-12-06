@@ -333,33 +333,7 @@ export class MultiUserComponent implements OnInit {
     }
   } // end of delete list function.
 
-  public historyDetailsOfSelectedList = () =>{
-    //let listSelected = Cookie.get('ListSelectedId')
-
-    let data = {
-      listId : Cookie.get('ListSelectedId'),
-      authToken: this.authToken
-    }
-
-    this.appService.historyDetailsOfSelectedList(data).subscribe(apiResponse =>{
-      this.ListToRestore = [];
-      this.friendIdList = [];
-      //this.ItemToRestore = [];
-      console.log("history data for selected list :",apiResponse.data)
-      if(apiResponse.status === 200) {
-        
-        for(let x of apiResponse.data){
-          this.ListToRestore.push(x.objectToRestore)
-          if(x.length == apiResponse.data.length){
-            this.friendIdList.push(x.userFriendsId)
-          }
-        }
-
-        console.log("list of object to restore is", this.ListToRestore)
-        console.log("friendId of user who has created the list", this.friendIdList);
-      }
-    })
-  }
+  
 
   //functionality of list ends here.
 
@@ -451,32 +425,7 @@ export class MultiUserComponent implements OnInit {
 
   }
 
-  public historyDetailsOfSelectedItem = () =>{
-    //let listSelected = Cookie.get('ListSelectedId')
-
-    let data = {
-      itemId : Cookie.get('ItemSelectedId'),
-      authToken: this.authToken
-    }
-
-    this.appService.historyDetailsOfSelectedItem(data).subscribe(apiResponse =>{
-      this.ItemToRestore = [];
-      this.friendIdList = [];
-      console.log("history data for selected item :",apiResponse.data)
-      if(apiResponse.status === 200) {
-        
-        for(let x of apiResponse.data){
-          this.ItemToRestore.push(x.objectToRestore)
-          if(x.length == apiResponse.data.length){
-            this.friendIdList.push(x.userFriendsId)
-          }
-        }
-
-        console.log("list of item object to restore is", this.ItemToRestore)
-        console.log("friendId of user who has created the list", this.friendIdList);
-      }
-    })
-  }
+  
 
   public DeleteItem(): any {
     if (Cookie.get('ItemSelectedId') === undefined || Cookie.get('ItemSelectedId') === '' || Cookie.get('ItemSelectedId') === null) {

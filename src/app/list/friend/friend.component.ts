@@ -15,7 +15,6 @@ export class FriendComponent implements OnInit {
   public userName;
   public userId;
   public allUsers = [];
-  //public allFriends = [];
   public myDetail = [];
   public myFriends = [];
   public friendRequestRecieved = [];
@@ -39,17 +38,10 @@ export class FriendComponent implements OnInit {
 
     this.checkStatus();
 
-    // this.socketService.getAllUserId()
-
     this.verifyUserConfirmation();
-    //this.onSendFriendRequest()
-
-    // this.getAllUserDetail()
-    // this.getMyDetail()
     setInterval(() => {
       this.getAllUserDetail()
       this.getMyDetail()
-      //this.socketService.sendToSenderId(data.senderId);
     },1000);
   }
 
@@ -78,7 +70,6 @@ export class FriendComponent implements OnInit {
         this.disconnectedSocket = false;
 
         this.socketService.setUser(this.authToken);
-        //this.getOnlineUserList();
 
       });
   }
@@ -89,7 +80,6 @@ export class FriendComponent implements OnInit {
       .subscribe((userList) => {
 
         this.onlineUserList = [];
-        //console.log(userList +".......");
 
         for (let x in userList) {
 
@@ -104,26 +94,12 @@ export class FriendComponent implements OnInit {
       }); // end online-user-list
   }
 
-
-  // public getAllUserDetail() {
-  //   this.allUsers = [];
-  //   this.appService.getAllUsers(this.authToken).subscribe(apiResponse => {
-  //     if (apiResponse.status == 200) {
-  //       this.allUsers = apiResponse.data
-  //     }
-  //     console.log("all user details are:", this.allUsers)
-
-  //   })
-
-  // }
-
   public getAllUserDetail() {
     this.allUsers = [];
     this.socketService.getAllUsers(this.authToken).subscribe(apiResponse => {
       if (apiResponse.status == 200) {
         this.allUsers = apiResponse.data
       }
-      //console.log("all user details are:", this.allUsers)
 
     })
 
@@ -132,25 +108,14 @@ export class FriendComponent implements OnInit {
 
   public getMyDetail() {
     this.getAllUserDetail();
-    // this.appService.getUserDetails(this.userId, this.authToken).subscribe(apiResponse => {
-      //this.getAllUserDetail();
     this.socketService.getUserDetails(this.userId, this.authToken).subscribe(apiResponse => {
-      //setTimeout(() =>{
         if (apiResponse.status === 200) {
-          //this.getAllUserDetail();
           this.myDetail = apiResponse.data
           this.myFriends = apiResponse.data.friends
           this.friendRequestRecieved = apiResponse.data.friendRequestRecieved;
           this.friendRequestSent = apiResponse.data.friendRequestSent;
   
-          // console.log("all user Details here is:", this.allUsers)
-          // console.log("details of loggedin user", this.myDetail)
-          // console.log("my friends are :", this.myFriends)
-          // console.log("friend request received is:", this.friendRequestRecieved);
-          // console.log("friend request sent are ", this.friendRequestSent)
-  
           const filterUserNotInFriendList = this.allUsers.filter((user) => !this.myFriends.find(({friendId}) => user.userId === friendId));
-          //console.log("filtered User not in friend list are:", filterUserNotInFriendList);
   
           const filterUserNotInFriendRequestReceived = filterUserNotInFriendList.filter((user) => ! this.friendRequestRecieved.find(({friendId}) => user.userId === friendId));
           //console.log("filtered User not in friend request received are:", filterUserNotInFriendRequestReceived);
@@ -161,7 +126,7 @@ export class FriendComponent implements OnInit {
           this.otherUsers = filterUserNotInFriendRequestsent.filter(user =>user.userId !== this.userId);
           //console.log("all users not in friend list are:", this.otherUsers)
         } else {
-          this.toastr.errorToastr(apiResponse.message)
+          //this.toastr.errorToastr(apiResponse.message)
         }
       //},1000);
       
@@ -171,53 +136,7 @@ export class FriendComponent implements OnInit {
   }
 
 
-  // public onSendFriendRequest = () => {
-  //   console.log("testing console")
-  //   // this.friendRequestSents = []
-  //   this.socketService.onSendFriendRequest().subscribe(
-  //     (data) => {
-  //       console.log("data here is ", data)
-  //       let temp = {
-  //         recieverId : data.recieverId,
-  //         recieverName: data.recieverName
-  //       }
-  //       console.log("friendRequestSent before push is ", this.friendRequestSents)
-  //       this.friendRequestSents.push(temp);
-  //       console.log("friendRequestSent here is ", this.friendRequestSents)
-  //     }
-  //   )
-  // }
 
-
-  // public addFriend(userId, firstName) {
-
-  //   let data = {
-  //     senderId: this.userId,
-  //     senderName: this.userName,
-  //     recieverId: userId,
-  //     recieverName: firstName,
-  //     authToken: this.authToken
-  //   }
-  //   console.log("data for sending friend request", data)
-  //   this.appService.sendFriendRequest(data).subscribe(apiResponse => {
-  //     console.log("apiResponse after sending friend request: ", apiResponse)
-  //     if (apiResponse.status === 200) {
-  //       this.toastr.successToastr('Friend request sent')
-  //       //this.socketService.emitSendFriendRequest(data); 
-  //       this.getAllUserDetail()
-  //       //this.getAllRequestSent()
-  //       this.getMyDetail()
-  //       // setInterval(() => {
-  //       //   //this.onSendFriendRequest()
-  //       //   this.socketService.emitSendFriendRequest(data);
-  //       // }, 1000)
-  //     } else {
-  //       this.toastr.errorToastr(apiResponse.message)
-  //     }
-  //   }, error => {
-  //     this.toastr.errorToastr(error.messsage)
-  //   })
-  // }
 
 
   public addFriend(userId, firstName) {
@@ -388,11 +307,9 @@ export class FriendComponent implements OnInit {
       console.log("data for accepting friend request is:", data);
       this.socketService.acceptFriendRequest(data)
       
-      // setInterval(() => {
-      //   this.getAllUserDetail()
-      //   this.getMyDetail()
-      //   this.socketService.sendToSenderId(data.senderId);
-      // },1000);
+      // setTimeout(() => {
+      //   this.getMyDetail();
+      // }, 500);
     }
   }
 
