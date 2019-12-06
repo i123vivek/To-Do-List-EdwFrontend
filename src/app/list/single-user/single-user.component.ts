@@ -45,6 +45,7 @@ export class SingleUserComponent implements OnInit, OnDestroy {
   public notificationArraySize: any;
   userDetail: any;
   disconnectedSocket: boolean;
+  historyToken: any;
 
 
   constructor(public appService: AppService, public router: Router, public toastr: ToastrManager, public socketService: SocketService) { }
@@ -220,12 +221,15 @@ export class SingleUserComponent implements OnInit, OnDestroy {
   public createNewList = () => {
     console.log('create new list called')
 
+    this.historyToken= "false";
+
     let data = {
       listName: this.newListName,
       listCreatorId: this.userId,
       listCreatorName: this.userName,
       listModifierId: this.userId,
       listModifierName: this.userName,
+      historyToken: this.historyToken,
       authToken: this.authToken
 
     }
@@ -320,11 +324,14 @@ export class SingleUserComponent implements OnInit, OnDestroy {
     }
     else {
 
+      this.historyToken= "false";
+
       let data = {
         listId: Cookie.get('ListSelectedId'),
         listName: this.listName,
         listModifierId: this.userId,
         listModifierName: this.userName,
+        historyToken: this.historyToken,
         authToken: this.authToken
       }
       console.log("currentList", data)
@@ -352,8 +359,10 @@ export class SingleUserComponent implements OnInit, OnDestroy {
     else {
       let listId = Cookie.get('ListSelectedId');
       console.log("listId to be deleted", listId);
+      this.historyToken= "false";
       let data = {
         listId: Cookie.get('ListSelectedId'),
+        historyToken: this.historyToken,
         authToken: this.authToken
       }
       this.appService.deleteList(data).subscribe(
@@ -405,7 +414,7 @@ export class SingleUserComponent implements OnInit, OnDestroy {
   public addItem = () => {
     // this.itemName = '';
     // this.itemDone = '';
-
+    this.historyToken= "false";
     let data = {
       listId: Cookie.get('ListSelectedId'),
       itemName: this.newItemName,
@@ -414,6 +423,7 @@ export class SingleUserComponent implements OnInit, OnDestroy {
       itemModifierId: this.userId,
       itemModifierName: this.userName,
       itemDone: this.newItemDone,
+      historyToken: this.historyToken,
       authToken: this.authToken
     }
 
@@ -465,8 +475,10 @@ export class SingleUserComponent implements OnInit, OnDestroy {
     else {
       let itemId = Cookie.get('ItemSelectedId');
       console.log("itemId to be deleted", itemId);
+      this.historyToken = 'false'
       let data = {
         itemId: Cookie.get('ItemSelectedId'),
+        historyToken: this.historyToken,
         authToken: this.authToken
       }
       this.appService.deleteItem(data).subscribe(
@@ -510,13 +522,14 @@ export class SingleUserComponent implements OnInit, OnDestroy {
       this.toastr.errorToastr('select an item to edit');
     }
     else {
-
+      this.historyToken = 'false'
       let data = {
         itemId: Cookie.get('ItemSelectedId'),
         itemName: this.itemName,
         itemDone: this.itemDone,
         itemModifierId: this.userId,
         itemModifierName: this.userName,
+        historyToken: this.historyToken,
         authToken: this.authToken
       }
       console.log("currentItem", data)
@@ -546,6 +559,7 @@ export class SingleUserComponent implements OnInit, OnDestroy {
 
     // this.subItemName = '';
     // this.subItemDone = '';
+    this.historyToken = 'false'
     let data = {
       itemId: Cookie.get('ItemSelectedId'),
       subItemName: this.subItemName,
@@ -554,6 +568,7 @@ export class SingleUserComponent implements OnInit, OnDestroy {
       subItemModifierId: this.userId,
       subItemModifierName: this.userName,
       subItemDone: this.subItemDone,
+      historyToken: this.historyToken,
       authToken: this.authToken
     }
 
@@ -705,11 +720,13 @@ export class SingleUserComponent implements OnInit, OnDestroy {
     else {
       let subItemId = Cookie.get('SubItemSelectedId');
       console.log("subItemId to be deleted11111", subItemId);
+      this.historyToken = 'false'
       let data = {
         itemId: Cookie.get('ItemSelectedId'),
         subItemId: Cookie.get('SubItemSelectedId'),
         subItemModifierId: this.userId,
         subItemModifierName: this.userName,
+        historyToken: this.historyToken,
         authToken: this.authToken
       }
 
@@ -739,7 +756,7 @@ export class SingleUserComponent implements OnInit, OnDestroy {
       this.toastr.errorToastr('select a subItem to edit');
     }
     else {
-
+      this.historyToken = 'false'
       let data = {
         itemId: Cookie.get('ItemSelectedId'),
         subItemId: Cookie.get('SubItemSelectedId'),
@@ -747,6 +764,7 @@ export class SingleUserComponent implements OnInit, OnDestroy {
         subItemDone: this.subItemDone,
         subItemModifierId: this.userId,
         subItemModifierName: this.userName,
+        historyToken: this.historyToken,
         authToken: this.authToken
       }
       console.log("currentSubItem is", data)

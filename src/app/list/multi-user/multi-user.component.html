@@ -2,13 +2,13 @@
   <div class="row">
     <div class="col-sm-12 p-0">
       <nav class="m-0 navbar navbar-expand-lg navbar-light fixed-top" style="background-color: darkblue ">
-        <a class="navbar-brand" href="">
+        <a class="navbar-brand d-flex w-50 order-lg-0" href="">
           <img src="../../assets/icon_128.png" width="50" height="50" class="d-inline-block align-top" alt="">
           <span class="text-light" style="font-size: 30px; margin-left: 10px ;">TODO List</span>
         </a>
 
-        <div class="btn-group">
-          <button class="btn btn-outline-light  my-2 my-sm-0" type="button"data-toggle="modal" data-target="#exampleModalLong"
+        <div class="btn-group order-lg-1">
+          <button class="btn btn-outline-light " type="button"data-toggle="modal" data-target="#exampleModalLong"
           ><i class="fa fa-bell"></i><span
             class="badge bg-danger">{{notificationArraySize}}</span>
         </button>
@@ -18,7 +18,7 @@
           aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+        <div class="collapse navbar-collapse justify-content-end order-lg-2" id="navbarNavDropdown">
           <ul class="nav ml-auto ">
             <li class="nav-item  ml-auto">
               <a class="nav-link text-light p-0  ">{{userName}}</a>

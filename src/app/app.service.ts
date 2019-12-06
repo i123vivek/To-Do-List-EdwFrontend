@@ -145,6 +145,7 @@ export class AppService {
       .set('listCreatorId', data.listCreatorId)
       .set('listCreatorName', data.listCreatorName)
       .set('listModifierId', data.listModifierId)
+      .set('historyToken', data.historyToken)
       .set('listModifierName', data.listModifierName)
 
     //.set('authToken', data.authToken)
@@ -165,6 +166,7 @@ export class AppService {
     const params = new HttpParams()
       .set('listName', data.listName)
       .set('listModifierId', data.listModifierId)
+      .set('historyToken', data.historyToken)
       .set('listModifierName', data.listModifierName)
     //.set('authToken', data.authToken)
 
@@ -177,6 +179,7 @@ export class AppService {
 
     const params = new HttpParams()
       .set('listId', data.listId)
+      .set('historyToken', data.historyToken)
 
     return this.http.post(`${this.url}/api/v1/lists/${data.listId}/delete?authToken=${data.authToken}`, params);
   }
@@ -196,6 +199,7 @@ export class AppService {
       .set('itemModifierId', data.itemModifierId)
       .set('itemDone', data.itemDone)
       .set('itemModifierName', data.itemModifierName)
+      .set('historyToken', data.historyToken)
     //.set('authToken', data.authToken)
 
     return this.http.post(`${this.url}/api/v1/items/add/item?authToken=${data.authToken}`, params)
@@ -204,6 +208,7 @@ export class AppService {
   public deleteItem(data: any): Observable<any> {
     const params = new HttpParams()
       .set('authToken', data.authToken)
+      .set('historyToken', data.historyToken)
     return this.http.post(`${this.url}/api/v1/items/${data.itemId}/delete`, params)
   }
 
@@ -217,6 +222,7 @@ export class AppService {
       .set('itemDone', data.itemDone)
       .set('itemModifierId', data.itemModifierId)
       .set('itemModifierName', data.itemModifierName)
+      .set('historyToken', data.historyToken)
     return this.http.put(`${this.url}/api/v1/items/${data.itemId}/update/item?authToken=${data.authToken}`, params)
   }
 
@@ -229,6 +235,7 @@ export class AppService {
       .set('subItemCreatorName', data.subItemCreatorName)
       .set('subItemModifierId', data.subItemModifierId)
       .set('subItemModifierName', data.subItemModifierName)
+      .set('historyToken', data.historyToken)
 
     return this.http.put(`${this.url}/api/v1/subItems/${data.itemId}/add/subItem?authToken=${data.authToken}`, params)
   }
@@ -245,6 +252,7 @@ export class AppService {
       .set('subItemModifierId', data.subItemModifierId)
       .set('subItemModifierName', data.subItemModifierName)
       .set('subItemDone', data.subItemDone)
+      .set('historyToken', data.historyToken)
     //.set('authToken', data.authToken)
 
     return this.http.put(`${this.url}/api/v1/subItems/${data.itemId}/edit/subItem?authToken=${data.authToken}`, params);
@@ -258,6 +266,7 @@ export class AppService {
       .set('authToken', data.authToken)
       .set('subItemModifierId', data.subItemModifierId)
       .set('subItemModifierName', data.subItemModifierName)
+      .set('historyToken', data.historyToken)
 
     return this.http.put(`${this.url}/api/v1/subItems/${data.itemId}/delete/subItem`, params);
   }
