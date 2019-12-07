@@ -22,7 +22,9 @@ import { HttpErrorResponse, HttpParams } from "@angular/common/http";
 })
 export class SocketService {
 
-  private url = 'http://localhost:3000';
+  //private url = 'http://localhost:3000';
+
+  private url = 'http://api.bhaiyaji.club';
 
   private socket;
   //allUserId: any[];
