@@ -14,7 +14,7 @@ import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 export class AppService {
 
   //private url = 'http://localhost:3000';
-  private url = 'http://api.bhaiyaji.club';
+  private url = 'http://api.essindia.club';
 
   constructor(public http: HttpClient) { }
 
