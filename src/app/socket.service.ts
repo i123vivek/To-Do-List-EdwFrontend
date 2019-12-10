@@ -11,11 +11,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AppService } from './app.service';
 import { HttpErrorResponse, HttpParams } from "@angular/common/http";
 
-// function _window() : any {
-//   // return the global native browser window object
-//   return window;
-// }
-
 
 @Injectable({
   providedIn: 'root'
@@ -27,8 +22,6 @@ export class SocketService {
   private url = 'http://api.essindia.club';
 
   private socket;
-  //allUserId: any[];
-  //authToken = Cookie.get('authToken');
 
   constructor(public http: HttpClient, public appService: AppService) {
     this.socket = io(this.url);
@@ -90,20 +83,20 @@ export class SocketService {
 
   } // end setUser
 
-  
-  public sendFriendRequest= (data)=>{
+
+  public sendFriendRequest = (data) => {
     this.socket.emit('send-friend-request', data);
   }
 
-  public cancelFriendRequest = (data) =>{
+  public cancelFriendRequest = (data) => {
     this.socket.emit('cancel-friend-request', data);
   }
 
-  public rejectFriendRequest = (data) =>{
+  public rejectFriendRequest = (data) => {
     this.socket.emit('reject-friend-request', data);
   }
 
-  public acceptFriendRequest = (data)=>{
+  public acceptFriendRequest = (data) => {
     this.socket.emit('accept-friend-request', data);
   }
 
@@ -119,7 +112,7 @@ export class SocketService {
 
     }); // end Observable
 
-  } 
+  }
 
   public sendToSenderId = (userId) => {
 
@@ -133,7 +126,7 @@ export class SocketService {
 
     }); // end Observable
 
-  } 
+  }
 
   public sendNotificationRequest = (userId) => {
 
@@ -143,11 +136,9 @@ export class SocketService {
   }
 
   public getNotification = () => {
-    //console.log("get-notification-called")
     return Observable.create((observer) => {
       this.socket.on('YourNotifications', notificationData => {
         observer.next(notificationData);
-        //console.log("notifiation recieved from the server is:", notificationData);
 
       });
     });
@@ -164,14 +155,10 @@ export class SocketService {
 
   public getAllUsers(authToken): Observable<any> {
     return this.http.get(`${this.url}/api/v1/users/view/all?authToken=${authToken}`)
-      //.do(data => console.log('Data received for all user details'))
-      //.catch(this.handleError);
   }
 
   public getUserDetails(userId, authToken): Observable<any> {
     return this.http.get(`${this.url}/api/v1/users/${userId}/details?authToken=${authToken}`)
-      //.do(data => console.log('Data received for single user detail'))
-      //.catch(this.handleError);
   }
 
   private handleError(err: HttpErrorResponse) {
@@ -194,10 +181,4 @@ export class SocketService {
 
   }  // END handleErrorc
 
-  
-
-
-
-
-  
 }

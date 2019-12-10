@@ -8,10 +8,9 @@
         </a>
 
         <div class="btn-group order-lg-1">
-          <button class="btn btn-outline-light " type="button"data-toggle="modal" data-target="#exampleModalLong"
-          ><i class="fa fa-bell"></i><span
-            class="badge bg-danger">{{notificationArraySize}}</span>
-        </button>
+          <button class="btn btn-outline-light " type="button" data-toggle="modal" data-target="#exampleModalLong"><i
+              class="fa fa-bell"></i><span class="badge bg-danger">{{notificationArraySize}}</span>
+          </button>
         </div>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
@@ -85,7 +84,7 @@
                   <h6 class="card-title">
                     {{item.itemName | uppercase}}
                     &nbsp;
-                    <!-- <span class="text-muted" (click)="itemSelected(item.itemId); getSubItemsOfItem(item.itemId)"> -->
+
                     <span class="text-muted" (click)="itemSelected(item.itemId)">
                       {{item.itemModifierName}} :- {{item.itemModifiedOn | date}}</span>
                     &nbsp;
@@ -374,15 +373,6 @@
             Item name is required
           </div>
 
-          <!-- <div class="form-group">
-              <label>Item Done</label>
-              <input type="text" name="itemDone" [(ngModel)]="itemDone" #name="ngModel" class="form-control"
-                placeholder="Enter Item status" required>
-            </div>
-  
-            <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
-              Item status is required
-            </div> -->
           <div class="form-group">
             <label for="Item-Status">Item-Status</label>
             <select required class="form-control" id="exampleFormControlSelect1" [(ngModel)]="itemDone" name="itemDone"
@@ -510,15 +500,6 @@
             SubItem name is required
           </div>
 
-          <!-- <div class="form-group">
-              <label>Item Done</label>
-              <input type="text" name="itemDone" [(ngModel)]="itemDone" #name="ngModel" class="form-control"
-                placeholder="Enter Item status" required>
-            </div>
-  
-            <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
-              Item status is required
-            </div> -->
           <div class="form-group">
             <label for="SubItem-Status">SubItem-Status</label>
             <select required class="form-control" id="exampleFormControlSelect1" [(ngModel)]="subItemDone"
@@ -552,7 +533,8 @@
   </div>
 </div>
 
-<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+  aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -562,13 +544,14 @@
         </button>
       </div>
       <div class="modal-body">
-          <ul class="list-group" *ngFor="let notification of notificationList">
-            <li  class=" list-group-item dropdown-item " style="white-space: pre-wrap; width:100%;" (click)=" selectNotification(notification.details.notificationId)" data-dismiss="modal">{{notification.message}}</li>
-          </ul>
+        <ul class="list-group" *ngFor="let notification of notificationList">
+          <li class=" list-group-item dropdown-item " style="white-space: pre-wrap; width:100%;"
+            (click)=" selectNotification(notification.details.notificationId)" data-dismiss="modal">
+            {{notification.message}}</li>
+        </ul>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
       </div>
     </div>
   </div>

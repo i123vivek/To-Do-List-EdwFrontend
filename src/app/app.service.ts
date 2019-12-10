@@ -85,7 +85,6 @@ export class AppService {
       .set('senderName', data.senderName)
       .set('recieverId', data.recieverId)
       .set('recieverName', data.recieverName)
-    //.set('authToken', data.authToken)
     return this.http.post(`${this.url}/api/v1/friends/send/friend/request?authToken=${data.authToken}`, params);
   }
 
@@ -96,7 +95,6 @@ export class AppService {
       .set('senderName', data.senderName)
       .set('recieverId', data.recieverId)
       .set('recieverName', data.recieverName)
-    //.set('authToken', data.authToken)
     return this.http.post(`${this.url}/api/v1/friends/reject/friend/request?authToken=${data.authToken}`, params);
   }
 
@@ -108,7 +106,6 @@ export class AppService {
       .set('senderName', data.senderName)
       .set('recieverId', data.recieverId)
       .set('recieverName', data.recieverName)
-    //.set('authToken', data.authToken)
     return this.http.post(`${this.url}/api/v1/friends/cancel/friend/request?authToken=${data.authToken}`, params);
   }
 
@@ -119,9 +116,6 @@ export class AppService {
       .set('senderName', data.senderName)
       .set('recieverId', data.recieverId)
       .set('recieverName', data.recieverName)
-    //.set('authToken', data.authToken)
-
-
     return this.http.post(`${this.url}/api/v1/friends/accept/friend/request?authToken=${data.authToken}`, params);
   }
 
@@ -132,7 +126,6 @@ export class AppService {
       .set('senderName', data.senderName)
       .set('recieverId', data.recieverId)
       .set('recieverName', data.recieverName)
-    //.set('authToken', data.authToken)
 
     return this.http.post(`${this.url}/api/v1/friends/unfriend/user?authToken=${data.authToken}`, params);
   }
@@ -148,8 +141,6 @@ export class AppService {
       .set('listModifierId', data.listModifierId)
       .set('historyToken', data.historyToken)
       .set('listModifierName', data.listModifierName)
-
-    //.set('authToken', data.authToken)
 
     return this.http.post(`${this.url}/api/v1/lists/createList?authToken=${data.authToken}`, params)
   }
@@ -169,7 +160,6 @@ export class AppService {
       .set('listModifierId', data.listModifierId)
       .set('historyToken', data.historyToken)
       .set('listModifierName', data.listModifierName)
-    //.set('authToken', data.authToken)
 
     return this.http.put(`${this.url}/api/v1/lists/${data.listId}/editList?authToken=${data.authToken}`, params);
   }
@@ -201,7 +191,6 @@ export class AppService {
       .set('itemDone', data.itemDone)
       .set('itemModifierName', data.itemModifierName)
       .set('historyToken', data.historyToken)
-    //.set('authToken', data.authToken)
 
     return this.http.post(`${this.url}/api/v1/items/add/item?authToken=${data.authToken}`, params)
   }
@@ -254,7 +243,6 @@ export class AppService {
       .set('subItemModifierName', data.subItemModifierName)
       .set('subItemDone', data.subItemDone)
       .set('historyToken', data.historyToken)
-    //.set('authToken', data.authToken)
 
     return this.http.put(`${this.url}/api/v1/subItems/${data.itemId}/edit/subItem?authToken=${data.authToken}`, params);
   }

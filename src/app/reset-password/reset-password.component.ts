@@ -18,10 +18,9 @@ export class ResetPasswordComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe((params: Params) => {
       console.log(params);
     });
-   }
+  }
 
   ngOnInit() {
-    //console.log((window.location.href))
     this.token = this.activatedRoute.snapshot.paramMap.get('token');
     console.log("the token is", this.token)
     console.log((this.router.url))
@@ -36,23 +35,23 @@ export class ResetPasswordComponent implements OnInit {
     }
   }
 
-  public setNewPassword =()=>{
+  public setNewPassword = () => {
     let password1 = this.password;
     let password2 = this.duplicatePassword;
 
-    if(this.comparePassword(password1,password2) === true) {
-      this.appService.setNewPassword(password1,this.token).subscribe((apiResponse) =>{
-        console.log('apiResponse for set new password',apiResponse);
-        if(apiResponse.status === 200){
+    if (this.comparePassword(password1, password2) === true) {
+      this.appService.setNewPassword(password1, this.token).subscribe((apiResponse) => {
+        console.log('apiResponse for set new password', apiResponse);
+        if (apiResponse.status === 200) {
           this.toastr.successToastr('password set successfully');
           this.router.navigate(['/login']);
         } else {
           this.toastr.errorToastr('Some error occurred or token expired');
         }
-      },(err)=>{
+      }, (err) => {
         this.toastr.errorToastr('some error occured');
       })
-    } else{
+    } else {
       this.toastr.warningToastr('passwords mismatch ');
     }
   }

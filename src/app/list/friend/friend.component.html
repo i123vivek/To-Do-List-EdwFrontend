@@ -46,11 +46,11 @@
         </div>
 
       </nav>
-   
+
 
     </div>
 
-  
+
     <div class="container pt-2" style="border:1px solid lightgrey;">
       <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
         <li class="nav-item">
@@ -119,17 +119,16 @@
       </div>
 
       <div class="modal-body">
-        <!-- <ul *ngFor="let requestReceived of friendRequestRecieved">
-            align-items-center
-        </ul> -->
 
         <ul class="list-group" *ngFor="let requestReceived of friendRequestRecieved">
           <li class="list-group-item d-flex justify-content-between ">
             {{requestReceived.friendName}}
             <span class="ml-5 pl-5"><i class="fa fa-check-square-o"
-                (click)="acceptFriendRequest(requestReceived.friendId,requestReceived.friendName)" data-dismiss="modal"></i></span>
+                (click)="acceptFriendRequest(requestReceived.friendId,requestReceived.friendName)"
+                data-dismiss="modal"></i></span>
             <span><i class="fa fa-user-times"
-                (click)="rejectFriendRequest(requestReceived.friendId,requestReceived.friendName)" data-dismiss="modal"></i></span>
+                (click)="rejectFriendRequest(requestReceived.friendId,requestReceived.friendName)"
+                data-dismiss="modal"></i></span>
           </li>
         </ul>
       </div>

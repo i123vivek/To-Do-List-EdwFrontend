@@ -40,7 +40,7 @@ export class SingleUserComponent implements OnInit, OnDestroy {
   allSubItem: any[];
   public newItemName = '';
   public newItemDone = '';
-  public notificationList: any= [];
+  public notificationList: any = [];
 
   public notificationArraySize: any;
   userDetail: any;
@@ -59,19 +59,13 @@ export class SingleUserComponent implements OnInit, OnDestroy {
     this.checkStatus();
 
     this.verifyUserConfirmation()
-    //this.socketService.getAllUserId()
 
     this.getAllList();
 
-    // this.socketService.sendNotificationRequest(this.userId);
-
-    // this.getMyNotification();
-
     setInterval(() => {
       this.socketService.sendNotificationRequest(this.userId);
-
       this.getMyNotification();
-    },1000);
+    }, 1000);
 
 
 
@@ -100,23 +94,10 @@ export class SingleUserComponent implements OnInit, OnDestroy {
       .subscribe((data) => {
         this.disconnectedSocket = false;
         this.socketService.setUser(this.authToken);
-        //this.getOnlineUserList();
 
       });
   }
 
-  // public verifyUserConfirmation: any = () => {
-  //   this.socketService.verifyUser()
-  //     .subscribe((data) => {
-  //       console.log("in verifyUserConfirmation: ",data)
-  //       this.socketService.setUser(this.authToken);//in reply to verify user emitting set-user event with authToken as parameter.
-  //     },
-  //       (err) => {
-  //         this.toastr.errorToastr(err, "Some error occured");
-  //       });//end subscribe
-  // } //end verifyUserConfirmation
-
-  
 
 
   public getMyNotification = () => {
@@ -179,7 +160,7 @@ export class SingleUserComponent implements OnInit, OnDestroy {
             details: notificationdata[x]
           }
           this.notificationList.push(notificationObj)
-        } else if (notificationdata[x].notificationPurpose == "subItem-edit" && notificationdata[x].notificationStatus == "un-seen"){
+        } else if (notificationdata[x].notificationPurpose == "subItem-edit" && notificationdata[x].notificationStatus == "un-seen") {
           let notificationObj = {
             message: `${notificationdata[x].notificationMessage}`,
             details: notificationdata[x]
@@ -188,10 +169,7 @@ export class SingleUserComponent implements OnInit, OnDestroy {
         }
       }
 
-      //console.log('your notification is', notificationdata)
       this.notificationArraySize = this.notificationList.length
-
-      //console.log('your notification list is', this.notificationList)
 
     })
   }
@@ -221,7 +199,7 @@ export class SingleUserComponent implements OnInit, OnDestroy {
   public createNewList = () => {
     console.log('create new list called')
 
-    this.historyToken= "false";
+    this.historyToken = "false";
 
     let data = {
       listName: this.newListName,
@@ -324,7 +302,7 @@ export class SingleUserComponent implements OnInit, OnDestroy {
     }
     else {
 
-      this.historyToken= "false";
+      this.historyToken = "false";
 
       let data = {
         listId: Cookie.get('ListSelectedId'),
@@ -338,7 +316,6 @@ export class SingleUserComponent implements OnInit, OnDestroy {
       this.appService.editList(data).subscribe(apiResponse => {
         console.log(apiResponse)
         if (apiResponse.status == 200) {
-          //this.getListDetails(Cookie.get('ListSelectedId'))
           this.toastr.successToastr('list updated')
           Cookie.delete('ListSelectedId');
           location.reload();
@@ -359,7 +336,7 @@ export class SingleUserComponent implements OnInit, OnDestroy {
     else {
       let listId = Cookie.get('ListSelectedId');
       console.log("listId to be deleted", listId);
-      this.historyToken= "false";
+      this.historyToken = "false";
       let data = {
         listId: Cookie.get('ListSelectedId'),
         historyToken: this.historyToken,
@@ -402,9 +379,7 @@ export class SingleUserComponent implements OnInit, OnDestroy {
         console.log('allItems', this.allItems)
         this.toastr.successToastr('item details fetched')
 
-      } //else {
-      //   this.toastr.errorToastr(apiResponse.message)
-      // }
+      }
     }, (error) => {
       this.toastr.errorToastr(error.message, 'Error')
     })
@@ -412,9 +387,7 @@ export class SingleUserComponent implements OnInit, OnDestroy {
 
 
   public addItem = () => {
-    // this.itemName = '';
-    // this.itemDone = '';
-    this.historyToken= "false";
+    this.historyToken = "false";
     let data = {
       listId: Cookie.get('ListSelectedId'),
       itemName: this.newItemName,
@@ -434,13 +407,9 @@ export class SingleUserComponent implements OnInit, OnDestroy {
       if (apiResponse.status == 200) {
         this.toastr.successToastr('Item added')
         this.getItemsOfList(Cookie.get('ListSelectedId'), this.listName)
-        // this.allItems = []
-        // this.allItems = apiResponse.data;
         this.allItems.push(apiResponse.data);
         console.log("all item here is", this.allItems);
         location.reload();
-        // delete this.itemName
-        // delete this.itemDone
 
       } else {
         this.toastr.errorToastr(apiResponse.message, 'Error')
@@ -459,7 +428,6 @@ export class SingleUserComponent implements OnInit, OnDestroy {
 
         Cookie.set('ItemSelectedId', item.itemId);
         this.itemName = item.itemName;
-        //this.itemSelectedId =
         console.log("list selected is:", this.itemName)
         this.getItemDetails(Cookie.get('ItemSelectedId'));
       }
@@ -536,7 +504,6 @@ export class SingleUserComponent implements OnInit, OnDestroy {
       this.appService.editItem(data).subscribe(apiResponse => {
         console.log(apiResponse)
         if (apiResponse.status == 200) {
-          //this.getListDetails(Cookie.get('ListSelectedId'))
           this.toastr.successToastr('item updated')
           Cookie.delete('ItemSelectedId');
           location.reload();
@@ -556,9 +523,6 @@ export class SingleUserComponent implements OnInit, OnDestroy {
 
 
   public addSubItem = () => {
-
-    // this.subItemName = '';
-    // this.subItemDone = '';
     this.historyToken = 'false'
     let data = {
       itemId: Cookie.get('ItemSelectedId'),
@@ -579,9 +543,6 @@ export class SingleUserComponent implements OnInit, OnDestroy {
       if (apiResponse.status == 200) {
         this.toastr.successToastr('SubItem added')
         this.getItemsOfList(Cookie.get('ListSelectedId'), this.listName)
-        // this.allItems = []
-        // this.allItems = apiResponse.data;
-        //this.allItems.subItems.push(apiResponse.data)
         for (let x of this.allItems) {
           if (x.itemId == Cookie.get('ItemSelectedId')) {
             x.subItems.push(apiResponse.data)
@@ -604,52 +565,6 @@ export class SingleUserComponent implements OnInit, OnDestroy {
     })
   }
 
-
-
-  // public getSubItemsOfItem = (itemId) => {
-  //   //this.allSubItem = [];
-  //   this.allItems.map((item) =>{
-  //     item.
-  //     // if(item.itemId == itemId){
-  //     //   this.allSubItem = item.subItems;
-  //     // }
-  //   })
-  //   console.log("all sub items of selected item is:", this.allSubItem);
-
-  // }
-
-  // public getSubItemsOfItem = (itemId) =>{
-  //   this.allSubItem = [];
-  //   this.allItems.map((item) =>{
-  //     if(item.itemId == itemId){
-  //       item.subItems.map((subItem) =>{
-
-  //       })
-  //     }
-  //   })
-  // }
-
-
-
-
-  // public itemSelected: any =(itemId) =>{
-  //   Cookie.delete('ItemSelectedId');
-  //   this.itemName =''
-  //   this.allItems.map((item) =>{
-  //     if(item.itemId == itemId){
-  //       console.log("item selected is:", item.itemId)
-
-  //       Cookie.set('ItemSelectedId', item.itemId);
-  //       this.itemName = item.itemName;
-  //       //this.itemSelectedId =
-  //       console.log("list selected is:", this.itemName)
-  //       this.getItemDetails(Cookie.get('ItemSelectedId'));
-  //     }
-  //   })
-
-
-  // }
-
   public subItemSelected: any = (subItemId, itemId) => {
     Cookie.delete('ItemSelectedId');
     Cookie.delete('SubItemSelectedId');
@@ -668,19 +583,9 @@ export class SingleUserComponent implements OnInit, OnDestroy {
             this.subItemName = subItem.subItemName;
             this.subItemDone = subItem.subItemDone
             console.log("subItem selected is:", this.subItemName)
-            //this.getSubItemDetails(Cookie.get('SubItemSelectedId'),Cookie.get('ItemSelectedId'));
           }
         })
       }
-
-      // if(subItem.subItemId == subItemId){
-      //   console.log("subItem selected is:", subItem.subItemId)
-
-      //   Cookie.set('SubItemSelectedId', subItem.subItemId);
-      //   this.subItemName = subItem.subItemName;
-      //   console.log("subItem selected is:", this.subItemName)
-      //   this.getSubItemDetails(Cookie.get('SubItemSelectedId'));
-      // }
     })
 
   }
@@ -713,7 +618,7 @@ export class SingleUserComponent implements OnInit, OnDestroy {
 
 
   public DeleteSubItem(): any {
-    //console.log ("sub item for delete",subItem)
+
     if (Cookie.get('SubItemSelectedId') === undefined || Cookie.get('SubItemSelectedId') === '' || Cookie.get('SubItemSelectedId') === null) {
       this.toastr.errorToastr('select a subItem to delete');
     }
@@ -744,7 +649,6 @@ export class SingleUserComponent implements OnInit, OnDestroy {
       )
 
       setTimeout(() => {
-        //this.getItemDetails(Cookie.get('ItemSelectedId'));
         console.log("item detail after delete is", this.getItemDetails(Cookie.get('ItemSelectedId')))
       }, 1000);
     }
@@ -771,7 +675,6 @@ export class SingleUserComponent implements OnInit, OnDestroy {
       this.appService.editSubItem(data).subscribe(apiResponse => {
         console.log(apiResponse)
         if (apiResponse.status == 200) {
-          //this.getListDetails(Cookie.get('ListSelectedId'))
           this.toastr.successToastr('subItem updated')
           Cookie.delete('ItemSelectedId');
           Cookie.delete('SubItemSelectedId');

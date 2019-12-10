@@ -1,9 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule, Routes} from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { ToastrModule } from 'ng6-toastr-notifications';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -32,15 +32,15 @@ import { ListModule } from './list/list.module';
     HttpClientModule,
     ToastrModule.forRoot(),
     RouterModule.forRoot([
-      { path: 'reset/:token', component: ResetPasswordComponent},
-      { path: 'home', component: HomeComponent, pathMatch: 'full'},
-      { path: '', redirectTo: 'home', pathMatch: 'full'},
-      { path: '*', component: HomeComponent},
-      { path: '**', component: HomeComponent},
-      
+      { path: 'reset/:token', component: ResetPasswordComponent },
+      { path: 'home', component: HomeComponent, pathMatch: 'full' },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      { path: '*', component: HomeComponent },
+      { path: '**', component: HomeComponent },
+
     ])
   ],
-  providers: [AppService,SocketService],
+  providers: [AppService, SocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

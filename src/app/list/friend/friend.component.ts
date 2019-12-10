@@ -19,11 +19,11 @@ export class FriendComponent implements OnInit {
   public myFriends = [];
   public friendRequestRecieved = [];
   public friendRequestSent = [];
-  public otherUsers= [];
+  public otherUsers = [];
   userDetail: any;
-  public friendRequestSents= [];
+  public friendRequestSents = [];
   disconnectedSocket: boolean;
-  public onlineUserList= [];
+  public onlineUserList = [];
 
   constructor(public appService: AppService, public router: Router, public toastr: ToastrManager, public socketService: SocketService) { }
 
@@ -33,7 +33,7 @@ export class FriendComponent implements OnInit {
     this.userId = Cookie.get('userId');
     this.userDetail = this.appService.getUserInfoFromLocalstorage()
 
-    
+
 
 
     this.checkStatus();
@@ -42,7 +42,7 @@ export class FriendComponent implements OnInit {
     setInterval(() => {
       this.getAllUserDetail()
       this.getMyDetail()
-    },1000);
+    }, 1000);
   }
 
 
@@ -109,27 +109,22 @@ export class FriendComponent implements OnInit {
   public getMyDetail() {
     this.getAllUserDetail();
     this.socketService.getUserDetails(this.userId, this.authToken).subscribe(apiResponse => {
-        if (apiResponse.status === 200) {
-          this.myDetail = apiResponse.data
-          this.myFriends = apiResponse.data.friends
-          this.friendRequestRecieved = apiResponse.data.friendRequestRecieved;
-          this.friendRequestSent = apiResponse.data.friendRequestSent;
-  
-          const filterUserNotInFriendList = this.allUsers.filter((user) => !this.myFriends.find(({friendId}) => user.userId === friendId));
-  
-          const filterUserNotInFriendRequestReceived = filterUserNotInFriendList.filter((user) => ! this.friendRequestRecieved.find(({friendId}) => user.userId === friendId));
-          //console.log("filtered User not in friend request received are:", filterUserNotInFriendRequestReceived);
-  
-          const filterUserNotInFriendRequestsent = filterUserNotInFriendRequestReceived.filter((user) => ! this.friendRequestSent.find(({friendId}) => user.userId === friendId));
-          //console.log("filtered User not in friend request sent are:", filterUserNotInFriendRequestsent);
-  
-          this.otherUsers = filterUserNotInFriendRequestsent.filter(user =>user.userId !== this.userId);
-          //console.log("all users not in friend list are:", this.otherUsers)
-        } else {
-          //this.toastr.errorToastr(apiResponse.message)
-        }
-      //},1000);
-      
+      if (apiResponse.status === 200) {
+        this.myDetail = apiResponse.data
+        this.myFriends = apiResponse.data.friends
+        this.friendRequestRecieved = apiResponse.data.friendRequestRecieved;
+        this.friendRequestSent = apiResponse.data.friendRequestSent;
+
+        const filterUserNotInFriendList = this.allUsers.filter((user) => !this.myFriends.find(({ friendId }) => user.userId === friendId));
+
+        const filterUserNotInFriendRequestReceived = filterUserNotInFriendList.filter((user) => !this.friendRequestRecieved.find(({ friendId }) => user.userId === friendId));
+
+        const filterUserNotInFriendRequestsent = filterUserNotInFriendRequestReceived.filter((user) => !this.friendRequestSent.find(({ friendId }) => user.userId === friendId));
+
+        this.otherUsers = filterUserNotInFriendRequestsent.filter(user => user.userId !== this.userId);
+      }
+
+
     }, error => {
       //this.toastr.errorToastr(error.message)
     })
@@ -140,9 +135,9 @@ export class FriendComponent implements OnInit {
 
 
   public addFriend(userId, firstName) {
-    if (this.userId === undefined || this.userId === '' || this.userId === null || this.userName === undefined || this.userName === '' || this.userName === null || userId === undefined || userId === '' || userId === null || firstName === undefined || firstName === '' || firstName === null || this.authToken === undefined || this.authToken === '' || this.authToken === null){
+    if (this.userId === undefined || this.userId === '' || this.userId === null || this.userName === undefined || this.userName === '' || this.userName === null || userId === undefined || userId === '' || userId === null || firstName === undefined || firstName === '' || firstName === null || this.authToken === undefined || this.authToken === '' || this.authToken === null) {
       this.toastr.errorToastr(" some argument is missing")
-    } else{
+    } else {
       let data = {
         senderId: this.userId,
         senderName: this.userName,
@@ -152,23 +147,14 @@ export class FriendComponent implements OnInit {
       }
       console.log("data for sending friend request", data)
       this.socketService.sendFriendRequest(data)
-      // this.getAllUserDetail()
-      // this.getMyDetail()
-      // setInterval(() => {
-      //   this.getAllUserDetail()
-      //   this.getMyDetail()
-      //   this.socketService.sendToReceiverId(data.recieverId);
-      // },1000);
-      
-
     }
-    
+
   }
 
   public cancelFriendRequest(userId, userName) {
-    if (this.userId === undefined || this.userId === '' || this.userId === null || this.userName === undefined || this.userName === '' || this.userName === null || userId === undefined || userId === '' || userId === null || userName === undefined || userName === '' || userName === null || this.authToken === undefined || this.authToken === '' || this.authToken === null){
+    if (this.userId === undefined || this.userId === '' || this.userId === null || this.userName === undefined || this.userName === '' || this.userName === null || userId === undefined || userId === '' || userId === null || userName === undefined || userName === '' || userName === null || this.authToken === undefined || this.authToken === '' || this.authToken === null) {
       this.toastr.errorToastr(" some argument is missing")
-    } else{
+    } else {
       let data = {
         senderId: this.userId,
         senderName: this.userName,
@@ -179,75 +165,15 @@ export class FriendComponent implements OnInit {
 
       console.log("data for cancelling friend request is:", data);
       this.socketService.cancelFriendRequest(data)
-      
-      // setInterval(() => {
-      //   this.getAllUserDetail()
-      //   this.getMyDetail()
-      //   this.socketService.sendToReceiverId(data.recieverId);
-      // },1000);
     }
-    
+
   }
-
-
-  // public cancelFriendRequest(userId, userName) {
-  //   let data = {
-  //     senderId: this.userId,
-  //     senderName: this.userName,
-  //     recieverId: userId,
-  //     recieverName: userName,
-  //     authToken: this.authToken
-  //   }
-
-  //   console.log("data for cancelling friend request is:", data);
-
-  //   this.appService.cancelFriendRequest(data).subscribe(apiResponse => {
-  //     console.log(" apiResponse for cancelling friend requesst is:", apiResponse)
-  //     if (apiResponse.status === 200) {
-  //       this.toastr.successToastr('friend request cancel')
-  //       this.getMyDetail()
-  //       this.getAllUserDetail()
-
-  //     } else {
-  //       this.toastr.errorToastr(apiResponse.message)
-  //     }
-  //   }, error => {
-  //     this.toastr.errorToastr(error.message);
-  //   })
-  // }
-
-
-  // public rejectFriendRequest(friendId, friendName) {
-  //   let data = {
-  //     senderId: friendId,
-  //     senderName: friendName,
-  //     recieverId: this.userId,
-  //     recieverName: this.userName,
-  //     authToken: this.authToken
-  //   }
-
-  //   console.log("data for reject friend request is:", data);
-
-  //   this.appService.rejectFriendRequest(data).subscribe(apiResponse => {
-  //     console.log("apiResponse for rejecting friend request is:", apiResponse)
-  //     if (apiResponse.status === 200) {
-  //       this.toastr.successToastr('friend request rejected')
-  //       this.getMyDetail()
-  //       this.getAllUserDetail()
-
-  //     } else {
-  //       this.toastr.errorToastr(apiResponse.message)
-  //     }
-  //   }, error => {
-  //     this.toastr.errorToastr(error.message);
-  //   })
-  // }
 
   public rejectFriendRequest(friendId, friendName) {
 
-    if (this.userId === undefined || this.userId === '' || this.userId === null || this.userName === undefined || this.userName === '' || this.userName === null || friendId === undefined || friendId === '' || friendId === null || friendName === undefined || friendName === '' || friendName === null || this.authToken === undefined || this.authToken === '' || this.authToken === null){
+    if (this.userId === undefined || this.userId === '' || this.userId === null || this.userName === undefined || this.userName === '' || this.userName === null || friendId === undefined || friendId === '' || friendId === null || friendName === undefined || friendName === '' || friendName === null || this.authToken === undefined || this.authToken === '' || this.authToken === null) {
       this.toastr.errorToastr(" some argument is missing")
-    } else{
+    } else {
       let data = {
         senderId: friendId,
         senderName: friendName,
@@ -258,44 +184,15 @@ export class FriendComponent implements OnInit {
 
       console.log("data for rejecting friend request is:", data);
       this.socketService.rejectFriendRequest(data)
-      
-      // setInterval(() => {
-      //   this.getAllUserDetail()
-      //   this.getMyDetail()
-      //   this.socketService.sendToSenderId(data.senderId);
-      // },1000);
+
     }
-
-    // let data = {
-    //   senderId: friendId,
-    //   senderName: friendName,
-    //   recieverId: this.userId,
-    //   recieverName: this.userName,
-    //   authToken: this.authToken
-    // }
-
-    // console.log("data for reject friend request is:", data);
-
-    // this.appService.rejectFriendRequest(data).subscribe(apiResponse => {
-    //   console.log("apiResponse for rejecting friend request is:", apiResponse)
-    //   if (apiResponse.status === 200) {
-    //     this.toastr.successToastr('friend request rejected')
-    //     this.getMyDetail()
-    //     this.getAllUserDetail()
-
-    //   } else {
-    //     this.toastr.errorToastr(apiResponse.message)
-    //   }
-    // }, error => {
-    //   this.toastr.errorToastr(error.message);
-    // })
   }
 
   public acceptFriendRequest(friendId, friendName) {
 
-    if (this.userId === undefined || this.userId === '' || this.userId === null || this.userName === undefined || this.userName === '' || this.userName === null || friendId === undefined || friendId === '' || friendId === null || friendName === undefined || friendName === '' || friendName === null || this.authToken === undefined || this.authToken === '' || this.authToken === null){
+    if (this.userId === undefined || this.userId === '' || this.userId === null || this.userName === undefined || this.userName === '' || this.userName === null || friendId === undefined || friendId === '' || friendId === null || friendName === undefined || friendName === '' || friendName === null || this.authToken === undefined || this.authToken === '' || this.authToken === null) {
       this.toastr.errorToastr(" some argument is missing")
-    } else{
+    } else {
       let data = {
         senderId: friendId,
         senderName: friendName,
@@ -306,37 +203,8 @@ export class FriendComponent implements OnInit {
 
       console.log("data for accepting friend request is:", data);
       this.socketService.acceptFriendRequest(data)
-      
-      // setTimeout(() => {
-      //   this.getMyDetail();
-      // }, 500);
     }
   }
-
-  // public acceptFriendRequest(friendId, friendName) {
-  //   let data = {
-  //     senderId: friendId,
-  //     senderName: friendName,
-  //     recieverId: this.userId,
-  //     recieverName: this.userName,
-  //     authToken: this.authToken
-  //   }
-
-  //   console.log("data for accepting friend request is :", data);
-
-  //   this.appService.acceptFriendRequest(data).subscribe(apiResponse => {
-  //     console.log("apiResponse for accepting friend request is:", apiResponse);
-  //     if (apiResponse.status === 200) {
-  //       this.toastr.successToastr('friend request accepted')
-  //       this.getMyDetail()
-  //     } else {
-  //       this.toastr.errorToastr(apiResponse.message)
-  //     }
-  //   }, error => {
-  //     this.toastr.errorToastr(error.message)
-  //   })
-  // }
-
 
 
   public logout: any = () => {

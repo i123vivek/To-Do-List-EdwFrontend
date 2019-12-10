@@ -19,13 +19,13 @@ export class MultiUserComponent implements OnInit {
   public friendName: string;
   public ListToRestore: any = [];
   public ItemToRestore: any = [];
-  public friendIdList : any =[];
+  public friendIdList: any = [];
   public allLists: any = [];
   public selectedListDetail: any;
   public listName: string;
   public selectedListId: any;
   public selectedList: any;
-  public allItems: any=[];
+  public allItems: any = [];
   itemName: string;
   currentItemDetail: string;
   public itemDone = '';
@@ -33,11 +33,11 @@ export class MultiUserComponent implements OnInit {
   public subItemDone = '';
   currentSubItemDetail: string;
   public newItemName: string;
-  public newItemDone= '';
+  public newItemDone = '';
   newSubItemName: any;
   newSubItemDone: any;
 
-  public notificationList: any= [];
+  public notificationList: any = [];
 
   public notificationArraySize: any;
   disconnectedSocket: boolean;
@@ -73,7 +73,7 @@ export class MultiUserComponent implements OnInit {
       this.socketService.sendNotificationRequest(this.userId);
 
       this.getMyNotification();
-    },1000);
+    }, 1000);
   }
 
   public checkStatus: any = () => {
@@ -98,7 +98,6 @@ export class MultiUserComponent implements OnInit {
       .subscribe((data) => {
         this.disconnectedSocket = false;
         this.socketService.setUser(this.authToken);
-        //this.getOnlineUserList();
 
       });
   }
@@ -164,7 +163,7 @@ export class MultiUserComponent implements OnInit {
             details: notificationdata[x]
           }
           this.notificationList.push(notificationObj)
-        } else if (notificationdata[x].notificationPurpose == "subItem-edit" && notificationdata[x].notificationStatus == "un-seen"){
+        } else if (notificationdata[x].notificationPurpose == "subItem-edit" && notificationdata[x].notificationStatus == "un-seen") {
           let notificationObj = {
             message: `${notificationdata[x].notificationMessage}`,
             details: notificationdata[x]
@@ -172,11 +171,7 @@ export class MultiUserComponent implements OnInit {
           this.notificationList.push(notificationObj)
         }
       }
-
-      //console.log('your notification is', notificationdata)
       this.notificationArraySize = this.notificationList.length
-
-      //console.log('your notification list is', this.notificationList)
 
     })
   }
@@ -230,7 +225,7 @@ export class MultiUserComponent implements OnInit {
     }
   } // end of getAllList function.
 
-  
+
 
 
   public getListDetails: any = (listId) => {
@@ -276,7 +271,7 @@ export class MultiUserComponent implements OnInit {
 
   }
 
-  
+
 
 
   public editList: any = () => {
@@ -285,7 +280,7 @@ export class MultiUserComponent implements OnInit {
     }
     else {
 
-      this.historyToken= "false";
+      this.historyToken = "false";
 
       let data = {
         listId: Cookie.get('ListSelectedId'),
@@ -299,7 +294,6 @@ export class MultiUserComponent implements OnInit {
       this.appService.editList(data).subscribe(apiResponse => {
         console.log(apiResponse)
         if (apiResponse.status == 200) {
-          //this.getListDetails(Cookie.get('ListSelectedId'))
           this.toastr.successToastr('list updated')
           Cookie.delete('ListSelectedId');
           location.reload();
@@ -320,7 +314,7 @@ export class MultiUserComponent implements OnInit {
     else {
       let listId = Cookie.get('ListSelectedId');
       console.log("listId to be deleted", listId);
-      this.historyToken= "false";
+      this.historyToken = "false";
       let data = {
         listId: Cookie.get('ListSelectedId'),
         historyToken: this.historyToken,
@@ -339,15 +333,13 @@ export class MultiUserComponent implements OnInit {
     }
   } // end of delete list function.
 
-  
+
 
   //functionality of list ends here.
 
   //functionality of item starts here.
 
   public addItem = () => {
-    // this.itemName = '';
-    // this.itemDone = '';
     this.historyToken = 'false'
     let data = {
       listId: Cookie.get('ListSelectedId'),
@@ -368,12 +360,8 @@ export class MultiUserComponent implements OnInit {
       if (apiResponse.status == 200) {
         this.toastr.successToastr('Item added')
         this.getItemsOfList(Cookie.get('ListSelectedId'), this.listName)
-        // this.allItems = []
-        // this.allItems = apiResponse.data;
         this.allItems.push(apiResponse.data);
         console.log("all item here is", this.allItems)
-        // delete this.itemName
-        // delete this.itemDone
 
       } else {
         this.toastr.errorToastr(apiResponse.message, 'Error')
@@ -403,9 +391,7 @@ export class MultiUserComponent implements OnInit {
         console.log('allItems', this.allItems)
         this.toastr.successToastr('item details fetched')
 
-      } //else {
-      //   this.toastr.errorToastr(apiResponse.message)
-      // }
+      }
     }, (error) => {
       this.toastr.errorToastr(error.message, 'Error')
     })
@@ -423,7 +409,6 @@ export class MultiUserComponent implements OnInit {
 
         Cookie.set('ItemSelectedId', item.itemId);
         this.itemName = item.itemName;
-        //this.itemSelectedId =
         console.log("list selected is:", this.itemName)
         this.getItemDetails(Cookie.get('ItemSelectedId'));
       }
@@ -432,7 +417,7 @@ export class MultiUserComponent implements OnInit {
 
   }
 
-  
+
 
   public DeleteItem(): any {
     if (Cookie.get('ItemSelectedId') === undefined || Cookie.get('ItemSelectedId') === '' || Cookie.get('ItemSelectedId') === null) {
@@ -444,7 +429,7 @@ export class MultiUserComponent implements OnInit {
       this.historyToken = 'false'
       let data = {
         itemId: Cookie.get('ItemSelectedId'),
-        historyToken:this.historyToken,
+        historyToken: this.historyToken,
         authToken: this.authToken
       }
       this.appService.deleteItem(data).subscribe(
@@ -503,7 +488,6 @@ export class MultiUserComponent implements OnInit {
       this.appService.editItem(data).subscribe(apiResponse => {
         console.log(apiResponse)
         if (apiResponse.status == 200) {
-          //this.getListDetails(Cookie.get('ListSelectedId'))
           this.toastr.successToastr('item updated')
           Cookie.delete('ItemSelectedId');
           location.reload();
@@ -523,9 +507,6 @@ export class MultiUserComponent implements OnInit {
 
 
   public addSubItem = () => {
-
-    // this.subItemName = '';
-    // this.subItemDone = '';
     this.historyToken = 'false'
     let data = {
       itemId: Cookie.get('ItemSelectedId'),
@@ -535,7 +516,7 @@ export class MultiUserComponent implements OnInit {
       subItemModifierId: this.userId,
       subItemModifierName: this.userName,
       subItemDone: this.newSubItemDone,
-      historyToken:this.historyToken,
+      historyToken: this.historyToken,
       authToken: this.authToken
     }
 
@@ -546,20 +527,15 @@ export class MultiUserComponent implements OnInit {
       if (apiResponse.status == 200) {
         this.toastr.successToastr('SubItem added')
         this.getItemsOfList(Cookie.get('ListSelectedId'), this.listName)
-        // this.allItems = []
-        // this.allItems = apiResponse.data;
-        //this.allItems.subItems.push(apiResponse.data)
-        for(let x of this.allItems){
-          if(x.itemId == Cookie.get('ItemSelectedId')){
+        for (let x of this.allItems) {
+          if (x.itemId == Cookie.get('ItemSelectedId')) {
             x.subItems.push(apiResponse.data)
           }
         }
         console.log("all item with subItem here is", this.allItems)
 
-        console.log("subitem name here is:",this.newSubItemName)
-        console.log("subitem status here is:",this.newSubItemDone)
-        // delete this.subItemName
-        // delete this.subItemDone
+        console.log("subitem name here is:", this.newSubItemName)
+        console.log("subitem status here is:", this.newSubItemDone)
         Cookie.delete('ItemSelectedId')
 
       } else {
@@ -589,19 +565,9 @@ export class MultiUserComponent implements OnInit {
             this.subItemName = subItem.subItemName;
             this.subItemDone = subItem.subItemDone
             console.log("subItem selected is:", this.subItemName)
-            //this.getSubItemDetails(Cookie.get('SubItemSelectedId'),Cookie.get('ItemSelectedId'));
           }
         })
       }
-
-      // if(subItem.subItemId == subItemId){
-      //   console.log("subItem selected is:", subItem.subItemId)
-
-      //   Cookie.set('SubItemSelectedId', subItem.subItemId);
-      //   this.subItemName = subItem.subItemName;
-      //   console.log("subItem selected is:", this.subItemName)
-      //   this.getSubItemDetails(Cookie.get('SubItemSelectedId'));
-      // }
     })
 
   }
@@ -635,7 +601,6 @@ export class MultiUserComponent implements OnInit {
 
 
   public DeleteSubItem(): any {
-    //console.log ("sub item for delete",subItem)
     if (Cookie.get('SubItemSelectedId') === undefined || Cookie.get('SubItemSelectedId') === '' || Cookie.get('SubItemSelectedId') === null) {
       this.toastr.errorToastr('select a subItem to delete');
     }
@@ -666,7 +631,6 @@ export class MultiUserComponent implements OnInit {
       )
 
       setTimeout(() => {
-        //this.getItemDetails(Cookie.get('ItemSelectedId'));
         console.log("item detail after delete is", this.getItemDetails(Cookie.get('ItemSelectedId')))
       }, 2000);
     }
@@ -694,7 +658,6 @@ export class MultiUserComponent implements OnInit {
       this.appService.editSubItem(data).subscribe(apiResponse => {
         console.log(apiResponse)
         if (apiResponse.status == 200) {
-          //this.getListDetails(Cookie.get('ListSelectedId'))
           this.toastr.successToastr('subItem updated')
           Cookie.delete('ItemSelectedId');
           Cookie.delete('SubItemSelectedId');
